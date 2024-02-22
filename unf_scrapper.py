@@ -121,7 +121,7 @@ all_event_data = []
 # ====== SQL CODE ==============
 
 # Database connection parameters
-host_name = "local_host"
+host_name = "localhost"
 db_name = "discord_db"
 user_name = "discord"
 user_password = "Nzk0OTYzODE5MjU2MjE3Njgx.GBs4_i.hizsWPaA_RyysaEhcTaDRmOWJyXwrtBRtYpfPY"
