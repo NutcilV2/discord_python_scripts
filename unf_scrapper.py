@@ -73,7 +73,8 @@ def scrape_events_for_date(date):
         # Extract event date
         date_element = card.find('div', class_='event_card_date')
         if date_element:
-            event_info['Card Date'] = date_element.get_text(strip=True)
+            card_date = date_element.get_text(strip=True).split(", ")
+            event_info['Card Date'] = card_date[-1]
 
         # Extract event title and link
         title_element = card.find('h3', class_='em-card_title')
