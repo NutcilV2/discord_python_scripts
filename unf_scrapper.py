@@ -24,24 +24,33 @@ def create_db_connection(host_name, db_name, user_name, user_password):
 
     return connection
 
-def insert_event_data(connection, data):
+def insert_event_data(connection, data, titles):
     cursor = connection.cursor()
     query = """
     INSERT INTO events (Event_Date, Event_Time, Event_Title, Event_Link, Event_Description, Event_Price, Event_Tags)
     VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
     for event in data:
-        cursor.execute(query, (
-            event.get('Event_Date', ''),
-            event.get('Event_Time', ''),
-            event.get('Event_Title', ''),
-            event.get('Event_Link', ''),
-            event.get('Event_Description', ''),
-            event.get('Event_Price', 'N/A'),
-            event.get('Event_Tags', '')
-        ))
+        if(event.get('Event_Time', '') not in titles):
+            cursor.execute(query, (
+                event.get('Event_Date', ''),
+                event.get('Event_Time', ''),
+                event.get('Event_Title', ''),
+                event.get('Event_Link', ''),
+                event.get('Event_Description', ''),
+                event.get('Event_Price', 'N/A'),
+                event.get('Event_Tags', '')
+            ))
     connection.commit()
     cursor.close()
+
+def get_events_for_date(connection, event_date):
+    cursor = connection.cursor()
+    query = "SELECT Event_Title FROM events WHERE Event_Date = %s"
+    cursor.execute(query, (event_date,))
+    titles = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    return titles
 
 def scrape_events_for_date(date):
     # Format the URL with the current date
@@ -135,7 +144,8 @@ if connection is not None:
     while current_date <= end_date:
         daily_events = scrape_events_for_date(current_date)
         if daily_events:
-            insert_event_data(connection, daily_events)
+            titles = get_events_for_date(connection, current_date)
+            insert_event_data(connection, daily_events, titles)
         current_date += timedelta(days=1)
 
     # Close the database connection
