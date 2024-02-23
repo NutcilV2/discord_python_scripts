@@ -27,8 +27,8 @@ def create_db_connection(host_name, db_name, user_name, user_password):
 def insert_event_data(connection, data):
     cursor = connection.cursor()
     query = """
-    INSERT INTO events (Date, Card_Date, Title, Title_Link, Event_Text, Event_Text_Link, Price, Tags)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO events (Event_Date, Event_Time, Event_Title, Event_Link, Event_Description, Event_Price, Event_Tags)
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
     for event in data:
         cursor.execute(query, (
