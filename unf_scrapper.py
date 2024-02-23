@@ -32,8 +32,7 @@ def insert_event_data(connection, data, titles):
     VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
     for event in data:
-        print(event.get('Event_Time', ''))
-        if(event.get('Event_Time', '') not in titles):
+        if(event.get('Event_Title', '') not in titles):
             cursor.execute(query, (
                 event.get('Event_Date', ''),
                 event.get('Event_Time', ''),
@@ -150,7 +149,6 @@ if connection is not None:
         daily_events = scrape_events_for_date(current_date)
         if daily_events:
             titles = get_events_for_date(connection, current_date)
-            print(titles)
             insert_event_data(connection, daily_events, titles)
         current_date += timedelta(days=1)
 
