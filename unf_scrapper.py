@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 import mysql.connector
 from mysql.connector import Error
@@ -124,7 +127,7 @@ all_event_data = []
 host_name = "localhost"
 db_name = "discord_db"
 user_name = "discord"
-user_password = "Nzk0OTYzODE5MjU2MjE3Njgx.GBs4_i.hizsWPaA_RyysaEhcTaDRmOWJyXwrtBRtYpfPY"
+user_password = os.getenv('DISCORD_TOKEN')
 
 # Connect to the database
 connection = create_db_connection(host_name, db_name, user_name, user_password)
