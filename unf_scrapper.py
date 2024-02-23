@@ -4,6 +4,7 @@ import csv
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
+import time
 load_dotenv()
 
 import mysql.connector
@@ -121,7 +122,7 @@ def scrape_events_for_date(date):
     return event_data
 
 # Start and end dates for March
-start_date = datetime(2024, 2, 22)
+start_date = datetime(2024, 3, 1)
 end_date = datetime(2024, 3, 1)
 
 current_date = start_date
@@ -144,9 +145,11 @@ if connection is not None:
     # Iterate over each day, scrape events, and insert into database
     current_date = start_date
     while current_date <= end_date:
+        time.sleep(5)
         daily_events = scrape_events_for_date(current_date)
         if daily_events:
             titles = get_events_for_date(connection, current_date)
+            print(titles)
             insert_event_data(connection, daily_events, titles)
         current_date += timedelta(days=1)
 
