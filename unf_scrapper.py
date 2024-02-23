@@ -32,6 +32,7 @@ def insert_event_data(connection, data, titles):
     VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
     for event in data:
+        print(event.get('Event_Time', ''))
         if(event.get('Event_Time', '') not in titles):
             cursor.execute(query, (
                 event.get('Event_Date', ''),
