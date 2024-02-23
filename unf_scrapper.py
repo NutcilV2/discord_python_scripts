@@ -27,8 +27,8 @@ def create_db_connection(host_name, db_name, user_name, user_password):
 def insert_event_data(connection, data):
     cursor = connection.cursor()
     query = """
-    INSERT INTO events (Date, Card_Date, Title, Title_Link, Event_Text, Event_Text_Link, Is_Virtual, Price, Tags)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO events (Date, Card_Date, Title, Title_Link, Event_Text, Event_Text_Link, Price, Tags)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     for event in data:
         cursor.execute(query, (
@@ -38,7 +38,6 @@ def insert_event_data(connection, data):
             event.get('Title Link', ''),
             event.get('Event Text', ''),
             event.get('Event Text Link', ''),
-            event.get('Is Virtual', False),
             event.get('Price', 'N/A'),
             event.get('Tags', '')
         ))
@@ -68,34 +67,31 @@ def scrape_events_for_date(date):
 
     for card in event_cards:
         # Initialize a dictionary to store the info for each event
-        event_info = {'Date': date.strftime('%Y-%m-%d')}
+        event_info = {'Event_Date': date.strftime('%Y-%m-%d')}
 
         # Extract event date
         date_element = card.find('div', class_='event_card_date')
         if date_element:
             card_date = date_element.get_text(strip=True).split(", ")
-            event_info['Card Date'] = card_date[-1]
+            event_info['Event_Time'] = card_date[-1]
 
         # Extract event title and link
         title_element = card.find('h3', class_='em-card_title')
         if title_element and title_element.a:
-            event_info['Title'] = title_element.get_text(strip=True)
-            event_info['Title Link'] = title_element.a['href']
+            event_info['Event_Title'] = title_element.get_text(strip=True)
+            event_info['Event_Link'] = title_element.a['href']
 
         # Extract event text and its link (if available)
         text_element = card.find('p', class_='em-card_event-text')
         if text_element and text_element.a:
-            event_info['Event Text'] = text_element.get_text(strip=True)
-            event_info['Event Text Link'] = text_element.a['href']
+            event_info['Event_Description'] = text_element.get_text(strip=True)
+            #event_info['Event Text Link'] = text_element.a['href']
         elif text_element:  # For virtual event detection without a specific link
-            event_info['Event Text'] = text_element.get_text(strip=True)
-
-        # Determine if the event is a virtual event
-        event_info['Is Virtual'] = 'Virtual Event' in card.get_text()
+            event_info['Event_Description'] = text_element.get_text(strip=True)
 
         # Extract price tag (if available)
         price_element = card.find('span', class_='em-price-tag em-price')
-        event_info['Price'] = price_element.get_text(strip=True) if price_element else 'N/A'
+        event_info['Event_Price'] = price_element.get_text(strip=True) if price_element else 'N/A'
 
         # Extract list of tags
         tags_container = card.find('div', class_='em-list_tags')
@@ -107,7 +103,7 @@ def scrape_events_for_date(date):
             a_tags = tags_container.find_all('a', class_='em-card_tag')
             tags.extend([tag.get_text(strip=True) for tag in a_tags])
 
-        event_info['Tags'] = ', '.join(tags)
+        event_info['Event_Tags'] = ', '.join(tags)
 
         # Add the event info to our list for the current date
         event_data.append(event_info)

@@ -1,0 +1,11 @@
+USE discord_db;
+CREATE TABLE events (
+	Event_Id INT AUTO_INCREMENT PRIMARY KEY,
+    Event_Date VARCHAR(255) NOT NULL,
+    Event_Time VARCHAR(255),
+    Event_Title VARCHAR(255) NOT NULL,
+    Event_Link VARCHAR(255),
+    Event_Description VARCHAR(5000),
+    Event_Price VARCHAR(255),
+    Event_Tags VARCHAR(1000)
+);
