@@ -32,14 +32,13 @@ def insert_event_data(connection, data):
     """
     for event in data:
         cursor.execute(query, (
-            event['Date'],
-            event.get('Card Date', ''),
-            event['Title'],
-            event.get('Title Link', ''),
-            event.get('Event Text', ''),
-            event.get('Event Text Link', ''),
-            event.get('Price', 'N/A'),
-            event.get('Tags', '')
+            event.get('Event_Date', ''),
+            event.get('Event_Time', ''),
+            event.get('Event_Title', ''),
+            event.get('Event_Link', ''),
+            event.get('Event_Description', ''),
+            event.get('Event_Price', 'N/A'),
+            event.get('Event_Tags', '')
         ))
     connection.commit()
     cursor.close()
