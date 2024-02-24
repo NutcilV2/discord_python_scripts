@@ -55,7 +55,7 @@ connection = create_db_connection(host_name, db_name, user_name, user_password)
 
 cursor = connection.cursor()
 query = "SELECT Event_Title FROM events"
-cursor.execute(query, (formatted_date,))
+cursor.execute(query)
 titles = [row[0] for row in cursor.fetchall()]
 cursor.close()
 
