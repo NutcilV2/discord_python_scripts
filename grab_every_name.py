@@ -60,7 +60,7 @@ titles = [row[0] for row in cursor.fetchall()]
 cursor.close()
 
 words = []
-for item in titles:
+for items in titles:
     temp_words = items.split(" ")
     for word in temp_words:
         words.append(word)
