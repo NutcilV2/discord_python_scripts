@@ -78,7 +78,7 @@ def scrape_events_for_date(date):
 
     for card in event_cards:
         # Initialize a dictionary to store the info for each event
-        event_info = {'Event_Date': date.strftime('%Y-%m-%d')}
+        event_info = {'Event_Date': date.strftime('%m/%d/%Y')}
 
         # Extract event date
         date_element = card.find('div', class_='event_card_date')
