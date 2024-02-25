@@ -122,8 +122,8 @@ def scrape_events_for_date(date):
     return event_data
 
 # Start and end dates for March
-start_date = datetime(2024, 3, 1)
-end_date = datetime(2024, 3, 1)
+start_date = datetime(2024, 2, 25)
+end_date = datetime(2024, 3, 5)
 
 current_date = start_date
 all_event_data = []
