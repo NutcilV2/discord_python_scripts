@@ -48,7 +48,7 @@ def insert_event_data(connection, data, titles):
 def get_events_for_date(connection, event_date):
     cursor = connection.cursor()
 
-    formatted_date = event_date.strftime('%Y-%m-%d')
+    formatted_date = event_date.strftime('%m/%d/%Y')
     query = "SELECT Event_Title FROM events WHERE Event_Date = %s"
     cursor.execute(query, (formatted_date,))
     titles = [row[0] for row in cursor.fetchall()]
