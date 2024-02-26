@@ -145,6 +145,7 @@ if connection is not None:
     # Iterate over each day, scrape events, and insert into database
     current_date = start_date
     while current_date <= end_date:
+        print(current_date.strftime('%m/%d/%Y'))
         time.sleep(5)
         daily_events = scrape_events_for_date(current_date)
         if daily_events:
