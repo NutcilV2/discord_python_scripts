@@ -89,7 +89,7 @@ def scrape_events_for_date(date):
         # Extract event title and link
         title_element = card.find('h3', class_='em-card_title')
         if title_element and title_element.a:
-            event_info['Event_Title'] = title_element.get_text(strip=True).replace("'", "")
+            event_info['Event_Title'] = title_element.get_text(strip=True).replace("'", "").upper()
             event_info['Event_Link'] = title_element.a['href']
 
         # Extract event text and its link (if available)
